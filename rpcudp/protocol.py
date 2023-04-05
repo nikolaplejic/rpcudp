@@ -71,9 +71,9 @@ class RPCProtocol(asyncio.DatagramProtocol):
 
     async def _accept_request(self, msg_id, data, address):
         if not isinstance(data, list) or len(data) != 2:
-            raise MalformedMessage("Could not read packet: %s" % data)
+            raise MalformedMessage(f"Could not read packet: {data}")
         funcname, args = data
-        func = getattr(self, "rpc_%s" % funcname, None)
+        func = getattr(self, f"rpc_{funcname}", None)
         if func is None or not callable(func):
             msgargs = (self.__class__.__name__, funcname)
             LOG.warning("%s has no callable method "
